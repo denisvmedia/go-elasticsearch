@@ -37,6 +37,8 @@ type Config struct {
 	CloudID string // Endpoint for the Elastic Service (https://elastic.co/cloud).
 	APIKey  string // Base64-encoded token for authorization; if set, overrides username and password.
 
+	CACert []byte // PEM-encoded certificate authorities.
+
 	RetryOnStatus        []int // List of status codes for retry. Default: 502, 503, 504.
 	DisableRetry         bool  // Default: false.
 	EnableRetryOnTimeout bool  // Default: false.
@@ -134,6 +136,8 @@ func NewClient(cfg Config) (*Client, error) {
 		Password: cfg.Password,
 		APIKey:   cfg.APIKey,
 
+		CACert: cfg.CACert,
+
 		RetryOnStatus:        cfg.RetryOnStatus,
 		DisableRetry:         cfg.DisableRetry,
 		EnableRetryOnTimeout: cfg.EnableRetryOnTimeout,
@@ -150,6 +154,9 @@ func NewClient(cfg Config) (*Client, error) {
 		Selector:           cfg.Selector,
 		ConnectionPoolFunc: cfg.ConnectionPoolFunc,
 	})
+	if err != nil {
+		return nil, fmt.Errorf("error creating transport: %s", err)
+	}
 
 	client := &Client{Transport: tp, API: esapi.New(tp)}
 
