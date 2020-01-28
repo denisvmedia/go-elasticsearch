@@ -163,6 +163,7 @@ cfg := elasticsearch.Config{
 See the [`_examples/configuration.go`](_examples/configuration.go) and
 [`_examples/customization.go`](_examples/customization.go) files for
 more examples of configuration and customization of the client.
+See the [`_examples/security`](_examples/security) for an example of a security configuration.
 
 The following example demonstrates a more complex usage. It fetches the Elasticsearch version from the cluster, indexes a couple of documents concurrently, and prints the search results, using a lightweight wrapper around the response body.
 
