@@ -115,12 +115,8 @@ func New(cfg Config) (*Client, error) {
 			return nil, fmt.Errorf("unable to set CA certificate for transport of type %T", cfg.Transport)
 		}
 
-		sysCertPool, err := x509.SystemCertPool()
-		if err != nil {
-			return nil, fmt.Errorf("unable to load system CA certificates: %s", err)
-		}
 		httpTransport = httpTransport.Clone()
-		httpTransport.TLSClientConfig.RootCAs = sysCertPool
+		httpTransport.TLSClientConfig.RootCAs = x509.NewCertPool()
 
 		if ok := httpTransport.TLSClientConfig.RootCAs.AppendCertsFromPEM(cfg.CACert); !ok {
 			return nil, errors.New("unable to add CA certificate")
