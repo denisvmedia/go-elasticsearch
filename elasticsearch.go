@@ -37,7 +37,10 @@ type Config struct {
 	CloudID string // Endpoint for the Elastic Service (https://elastic.co/cloud).
 	APIKey  string // Base64-encoded token for authorization; if set, overrides username and password.
 
-	CACert []byte // PEM-encoded certificate authorities.
+	// PEM-encoded certificate authorities.
+	// When set, an empty certificate pool will be created, and the certificates will be appended to it.
+	// The option is only valid when the transport is not specified, or when it's http.Transport.
+	CACert []byte
 
 	RetryOnStatus        []int // List of status codes for retry. Default: 502, 503, 504.
 	DisableRetry         bool  // Default: false.
